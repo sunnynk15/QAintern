@@ -1,7 +1,7 @@
 import requests
 
 def get_weather():
-    response = requests.get("https://api.example.com/weather")  # Replace with the actual API endpoint
+    response = requests.get("https://api.example.com/weather")  
     if response.status_code == 200:
         data = response.json()
         print("Weather:", data["weather"])
@@ -9,7 +9,7 @@ def get_weather():
         print("Failed to fetch weather data.")
 
 def get_wind_speed():
-    response = requests.get("https://api.example.com/wind_speed")  # Replace with the actual API endpoint
+    response = requests.get("https://api.example.com/wind_speed")  
     if response.status_code == 200:
         data = response.json()
         print("Wind Speed:", data["wind_speed"])
@@ -17,7 +17,7 @@ def get_wind_speed():
         print("Failed to fetch wind speed data.")
 
 def get_pressure():
-    response = requests.get("https://api.example.com/pressure")  # Replace with the actual API endpoint
+    response = requests.get("https://api.example.com/pressure") 
     if response.status_code == 200:
         data = response.json()
         print("Pressure:", data["pressure"])
