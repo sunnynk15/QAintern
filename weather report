@@ -1,28 +1,37 @@
 import requests
 
-def get_weather():
-    response = requests.get("https://api.example.com/weather")  
-    if response.status_code == 200:
-        data = response.json()
-        print("Weather:", data["weather"])
-    else:
-        print("Failed to fetch weather data.")
+API= "https://samples.openweathermap.org/data/2.5/forecast/hourly?qLondon,uk&appid=b6907d289e10d714a6e88b30761fae22"  
 
-def get_wind_speed():
-    response = requests.get("https://api.example.com/wind_speed")  
-    if response.status_code == 200:
-        data = response.json()
-        print("Wind Speed:", data["wind_speed"])
-    else:
-        print("Failed to fetch wind speed data.")
 
-def get_pressure():
-    response = requests.get("https://api.example.com/pressure") 
+def get_weather_data():
+    date = input("Enter the date (YYYY-MM-DD): ")
+    response = requests.get(API, params={"dt_txt": date})
+    return handle_response(response, "weather")
+
+def get_wind_speed_data():
+    date = input("Enter the date (YYYY-MM-DD): ")
+    response = requests.get(API, params={"dt_txt": date})
+    return handle_response(response, "wind")
+
+def get_pressure_data():
+    date = input("Enter the date (YYYY-MM-DD): ")
+    response = requests.get(API, params={"dt_txt": date})
+    return handle_response(response, "pressure")
+
+
+def handle_response(response, data_type):
     if response.status_code == 200:
-        data = response.json()
-        print("Pressure:", data["pressure"])
+        try:
+            data = response.json()
+            key = data_type.lower().replace(" ", "_")
+            if key in data:
+                return f"{data_type}: {data[key]}"
+            else:
+                return f"No {data_type} data available for the given date."
+        except ValueError:
+            return f"Error: {response.text}"  
     else:
-        print("Failed to fetch pressure data.")
+        return f"Error: {response.text}"  
 
 def main():
     while True:
@@ -33,16 +42,16 @@ def main():
         option = input("Enter your choice: ")
 
         if option == "1":
-            get_weather()
+            print(get_weather_data())
         elif option == "2":
-            get_wind_speed()
+            print(get_wind_speed_data())
         elif option == "3":
-            get_pressure()
+            print(get_pressure_data())
         elif option == "0":
             print("Exiting the program.")
             break
         else:
-            print("Invalid option. Please try again.")
+            print("Invalid option.")
 
 if __name__ == "__main__":
     main()
